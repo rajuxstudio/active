@@ -1,9 +1,11 @@
 import { ExternalLink, Clock, Smartphone, Monitor } from "lucide-react";
 import { getTechIcon } from "@/lib/techIcons";
+import { useState } from "react";
+
 
 interface ProjectData {
   logo: string;
-  name: string;
+  name: any;
   colors: string[];
   font: string;
   isLive: boolean;
@@ -21,6 +23,8 @@ interface ProjectBentoCardProps {
 
 const ProjectBentoCard = ({ project, index }: ProjectBentoCardProps) => {
   const animationDelay = index * 150;
+  const [activeImage, setActiveImage] = useState<string | null>(null);
+
 
   return (
     <div
@@ -82,13 +86,15 @@ const ProjectBentoCard = ({ project, index }: ProjectBentoCardProps) => {
               </div>
 
               {/* 🔁 DESKTOP MOCKUP → MOVED HERE */}
-              <div className="col-span-12 p-5 rounded-2xl bg-gradient-to-b from-primary/5 to-secondary/20 border border-border/30">
+              <div className="col-span-12 px-5 pt-5 rounded-2xl bg-gradient-to-b from-primary/5 to-secondary/20 border border-border/30">
                 <p className="text-xs font-semibold mb-3 flex items-center gap-2">
                   <Monitor className="w-4 h-4" />
                   Desktop
                 </p>
-                <div className="h-[220px] rounded-xl overflow-hidden border-4 border-foreground/15 shadow-2xl">
-                  <img src={project.webMockup} alt="Desktop mockup" className="w-full h-full object-cover" />
+                <div className="h-[220px] overflow-hidden shadow-2xl cursor-pointer 
+             border-t-4 border-l-4 border-r-4 border-foreground/15 
+             rounded-tl-[16px] rounded-tr-[16px]">
+                  <img src={project.webMockup} alt="Desktop mockup" className="w-full h-full object-cover object-top"/>
                 </div>
               </div>
 
@@ -115,15 +121,29 @@ const ProjectBentoCard = ({ project, index }: ProjectBentoCardProps) => {
             </div>
 
             {/* MOBILE MOCKUP */}
-            <div className="flex-1 p-5 rounded-2xl bg-gradient-to-b from-secondary/30 to-muted/20 border border-border/30 flex flex-col items-center">
-              <p className="text-xs font-semibold mb-4 flex items-center gap-2">
+            <div className="flex flex-col flex-1 col-span-12 px-5 pt-5 rounded-2xl 
+  bg-gradient-to-b from-primary/5 to-secondary/20 border border-border/30">
+
+              {/* Header */}
+              <p className="text-xs font-semibold mb-4 flex items-center gap-2 shrink-0">
                 <Smartphone className="w-4 h-4" />
                 Mobile
               </p>
-              <div className="aspect-[9/19] w-[120px] rounded-2xl overflow-hidden border-4 border-foreground/15 shadow-2xl">
-                <img src={project.mobileMockup} alt="Mobile mockup" className="w-full h-full object-cover" />
+
+              {/* Auto-layout image container */}
+              <div className="relative flex-1 overflow-hidden shadow-2xl cursor-pointer
+    border-t-4 border-l-4 border-r-4 border-foreground/15
+    rounded-tl-[16px] rounded-tr-[16px]">
+
+                <img
+                  src={project.mobileMockup}
+                  alt="Mobile mockup"
+                  className="absolute inset-0 w-full h-full object-top sm:object-cover"
+                />
               </div>
             </div>
+
+
 
           </div>
         </div>
@@ -132,4 +152,4 @@ const ProjectBentoCard = ({ project, index }: ProjectBentoCardProps) => {
   );
 };
 
-export default ProjectBentoCard;
+export default ProjectBentoCard; 
