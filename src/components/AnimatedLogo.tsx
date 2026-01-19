@@ -2,47 +2,40 @@ import { cn } from "@/lib/utils";
 
 export const AnimatedLogo = () => {
   return (
-    <a
-      href="#"
-      className="group relative flex items-center"
-    >
-      {/* Animated Handwritten Name with Writing Effect */}
-      <div className="relative">
-        <span
+    <a href="#" className="group relative flex items-center">
+      <div className="flex flex-row relative">
+        {/* Inline SVG with theme-aware color */}
+        <svg
+          width="64"
+          height="32"
+          viewBox="0 0 676 323"
+          xmlns="http://www.w3.org/2000/svg"
           className={cn(
-            "font-handwritten text-2xl lg:text-3xl font-bold text-foreground block",
-            "animate-write-text"
+            "w-16 h-auto block animate-write-text",
+            "text-black dark:text-white" // theme-aware color
           )}
         >
-          Rajvir
-        </span>
-        
-        {/* Animated pen/cursor effect */}
-        <div 
-          className="absolute top-1/2 -translate-y-1/2 w-0.5 h-5 bg-gradient-to-b from-primary to-accent animate-write-cursor rounded-full"
-        />
+          <g clipPath="url(#clip0_17_59)">
+            <path d="M130.784 171.091C123.964 174.514 121.571 183.892 126.96 189.294L240.075 302.695C246.362 308.998 241.898 319.757 232.995 319.757H210.04C207.383 319.757 204.835 318.7 202.959 316.819L74.1602 187.686C69.7793 183.293 63.8306 180.825 57.627 180.825C45.5762 180.825 35.807 190.594 35.807 202.645V245.018C35.807 248.128 33.286 250.649 30.1761 250.649H10C4.47716 250.649 0 246.172 0 240.649V190.66C0 165.255 20.5949 144.66 46 144.66H81.998H90.2336C120.312 144.66 144.66 120.312 144.66 90.2336C144.66 60.1557 120.312 35.807 90.2336 35.807H10C4.47715 35.807 0 31.3299 0 25.807V10C0 4.47715 4.47715 0 10 0H90.2336C140.006 0 180.467 40.4619 180.467 90.2336C180.467 125.731 160.33 156.26 130.784 171.091ZM292.063 250.291C286.54 250.291 282.063 245.814 282.063 240.291V177.661C282.063 157.106 265.619 140.661 245.063 140.661C224.508 140.661 208.063 157.106 208.063 177.661C208.063 198.217 224.508 214.661 245.063 214.661H255.619C261.142 214.661 265.619 219.138 265.619 224.661V240.291C265.619 245.814 261.142 250.291 255.619 250.291H245.063C205.049 250.291 172.434 217.676 172.434 177.661C172.434 137.647 205.049 105.032 245.063 105.032C285.078 105.032 317.693 137.647 317.693 177.661V240.291C317.693 245.814 313.216 250.291 307.693 250.291H292.063ZM358.45 105.032C363.973 105.032 368.45 109.509 368.45 115.032V250.291C368.45 286.924 341.116 317.354 305.794 322.237C300.323 322.993 295.821 318.444 295.821 312.921V297.291C295.821 291.768 300.379 287.43 305.707 285.976C321.404 281.691 332.821 267.418 332.821 250.291V115.032C332.821 109.509 337.298 105.032 342.821 105.032H358.45ZM434.142 250.291L384.434 118.562C381.965 112.022 386.799 105.032 393.79 105.032H408.042C412.203 105.032 415.929 107.608 417.398 111.501L469.772 250.291H434.142ZM434.142 250.291L486.515 111.501C487.985 107.608 491.711 105.032 495.871 105.032H510.125C517.116 105.032 521.949 112.022 519.481 118.563L469.772 250.291H434.142ZM571.265 240.291C571.265 245.814 566.788 250.291 561.265 250.291H545.636C540.113 250.291 535.636 245.814 535.636 240.291V115.032C535.636 109.509 540.113 105.032 545.636 105.032H561.265C566.788 105.032 571.265 109.509 571.265 115.032V240.291ZM592.207 250.291C586.684 250.291 582.207 245.814 582.207 240.291V177.661C582.207 137.647 614.822 105.032 654.836 105.032H665.392C670.915 105.032 675.392 109.509 675.392 115.032V130.661C675.392 136.184 670.915 140.661 665.392 140.661H654.836C634.281 140.661 617.836 157.106 617.836 177.661V240.291C617.836 245.814 613.359 250.291 607.836 250.291H592.207Z" fill="white" />
+            <path d="M72 89C72 108.882 55.8823 125 36 125C16.1177 125 0 108.882 0 89C0 69.1177 16.1177 53 36 53C55.8823 53 72 69.1177 72 89ZM21.096 89C21.096 97.2313 27.7687 103.904 36 103.904C44.2313 103.904 50.904 97.2313 50.904 89C50.904 80.7687 44.2313 74.096 36 74.096C27.7687 74.096 21.096 80.7687 21.096 89Z" fill="white" />
+            <path d="M128 89C128 108.882 111.882 125 92 125C72.1177 125 56 108.882 56 89C56 69.1177 72.1177 53 92 53C111.882 53 128 69.1177 128 89ZM77.096 89C77.096 97.2313 83.7687 103.904 92 103.904C100.231 103.904 106.904 97.2313 106.904 89C106.904 80.7687 100.231 74.096 92 74.096C83.7687 74.096 77.096 80.7687 77.096 89Z" fill="white" />
+          </g>
+          <defs>
+            <clipPath id="clip0_17_59">
+              <rect width="676" height="323" fill="currentColor" />
+            </clipPath>
+          </defs>
+        </svg>
 
-        {/* Floating bubbles/orbs around the text */}
-        <div 
-          className="absolute -top-2 left-2 w-2 h-2 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 animate-float"
-          style={{ animationDelay: "0s" }}
-        />
-        <div 
-          className="absolute -top-1 right-4 w-1.5 h-1.5 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 animate-float"
-          style={{ animationDelay: "0.5s" }}
-        />
-        <div 
-          className="absolute -bottom-1 left-8 w-1.5 h-1.5 rounded-full bg-gradient-to-r from-pink-400 to-rose-500 animate-float"
-          style={{ animationDelay: "1s" }}
-        />
-        <div 
-          className="absolute top-1/2 -right-3 w-2 h-2 rounded-full bg-gradient-to-r from-violet-400 to-purple-500 animate-float"
-          style={{ animationDelay: "1.5s" }}
-        />
-        <div 
-          className="absolute -bottom-2 right-6 w-1 h-1 rounded-full bg-gradient-to-r from-emerald-400 to-teal-500 animate-float"
-          style={{ animationDelay: "2s" }}
-        />
+        {/* Animated pen/cursor effect */}
+        <div className="absolute top-1/2 -translate-y-1/2 w-0.5 h-5 bg-gradient-to-b from-primary to-accent animate-write-cursor rounded-full" />
+
+        {/* Floating bubbles/orbs around the SVG */}
+        <div className="absolute -top-2 left-2 w-2 h-2 rounded-full bg-gradient-to-r from-yellow-400 to-orange-500 animate-float" style={{ animationDelay: "0s" }} />
+        <div className="absolute -top-1 right-4 w-1.5 h-1.5 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 animate-float" style={{ animationDelay: "0.5s" }} />
+        <div className="absolute -bottom-1 left-8 w-1.5 h-1.5 rounded-full bg-gradient-to-r from-pink-400 to-rose-500 animate-float" style={{ animationDelay: "1s" }} />
+        <div className="absolute top-1/2 -right-3 w-2 h-2 rounded-full bg-gradient-to-r from-violet-400 to-purple-500 animate-float" style={{ animationDelay: "1.5s" }} />
+        <div className="absolute -bottom-2 right-6 w-1 h-1 rounded-full bg-gradient-to-r from-emerald-400 to-teal-500 animate-float" style={{ animationDelay: "2s" }} />
       </div>
     </a>
   );

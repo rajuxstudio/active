@@ -7,7 +7,7 @@ import {
   Sparkles,
   Map,
 } from "lucide-react";
-import TimelineCard from "@/components/TImelineCard";
+import TimelineCard from "@/components/TimelineCard";
 import { motion } from "framer-motion";
 
 const itemVariants = {
@@ -20,14 +20,15 @@ const itemVariants = {
 };
 
 const timelineData = [
-  {
+{
     year: "2024 - Present",
     title: "Master of Computer Applications",
     subtitle: "Modi Institute of Technology, Kota",
     description: "Pursuing advanced computer science education to complement design expertise with technical depth.",
     type: "education" as const,
-    city: "Kota, Rajasthan",
     icon: GraduationCap,
+    city: "Kota, Rajasthan",
+    skills: ["Development", "Innovation"],
   },
   {
     year: "2022 - 2025",
@@ -35,14 +36,14 @@ const timelineData = [
     subtitle: "Fusionstak",
     description: "Worked on 7 mobile, 2 tablet, and 11+ web applications. Conducted user research, created wireframes, mockups & prototypes. Successfully designed multiple applications as the sole designer.",
     type: "work" as const,
-    city: "Pune, Maharashtra",
-
     icon: Briefcase,
+    city: "Remote",
     achievements: [
       "Designed 20+ applications across platforms",
       "Enhanced flagship project UX/UI",
       "Managed all design aspects independently"
     ],
+    skills: ["Figma", "UI Design", "UX Design", "Prototyping", "Mobile Design", "Web Design"],
   },
   {
     year: "2022 - Present",
@@ -50,9 +51,9 @@ const timelineData = [
     subtitle: "Independent",
     description: "Successfully freelanced on multiple UI/UX projects. Guided new designers as a tutor, sharing knowledge and fostering their growth in the field.",
     type: "work" as const,
-    city: "Remote",
-
     icon: Sparkles,
+    city: "Worldwide",
+    skills: ["User Research", "Design Systems", "Wireframing", "Creative"],
   },
   {
     year: "2020 - 2022",
@@ -60,9 +61,9 @@ const timelineData = [
     subtitle: "BK Birla College, Kalyan",
     description: "Advanced commerce studies building business acumen and analytical thinking.",
     type: "education" as const,
-    city: "mumbai, Maharashtra",
-
     icon: GraduationCap,
+    city: "Kalyan, Maharashtra",
+    skills: ["Innovation"],
   },
   {
     year: "2017 - 2020",
@@ -70,9 +71,9 @@ const timelineData = [
     subtitle: "Government Commerce College, Kota",
     description: "Foundation in commerce and business principles, sparking interest in design thinking and problem-solving.",
     type: "education" as const,
-    city: "Kota, Rajasthan",
-
     icon: GraduationCap,
+    city: "Kota, Rajasthan",
+    skills: ["Innovation"],
   },
 ];
 

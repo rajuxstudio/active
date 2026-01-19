@@ -1,371 +1,264 @@
-// import { useEffect, useState } from "react";
-// import {
-//   SiFigma,
-//   SiCanva,
-//   SiAdobephotoshop,
-//   SiAdobeillustrator,
-// } from "react-icons/si";
-// import { ChevronLeft, ChevronRight, X } from "lucide-react";
-
-// interface TemplateCardProps {
-//   template: {
-//     name: string;
-//     image: string[];
-//     colors: string[];
-//     tools: string[];
-//   };
-//   index: number;
-// }
-
-// const toolIcons: Record<string, any> = {
-//   figma: SiFigma,
-//   canva: SiCanva,
-//   photoshop: SiAdobephotoshop,
-//   illustrator: SiAdobeillustrator,
-// };
-
-// const TemplateCard = ({ template, index }: TemplateCardProps) => {
-//   if (!template.image || template.image.length < 1) return null;
-
-//   const [open, setOpen] = useState(false);
-//   const [activeIndex, setActiveIndex] = useState(0);
-
-//   const openViewer = (index: number) => {
-//     setActiveIndex(index);
-//     setOpen(true);
-//   };
-
-//   const next = () =>
-//     setActiveIndex((prev) => (prev + 1) % template.image.length);
-
-//   const prev = () =>
-//     setActiveIndex((prev) =>
-//       prev === 0 ? template.image.length - 1 : prev - 1
-//     );
-
-//   /* KEYBOARD NAVIGATION */
-//   useEffect(() => {
-//     if (!open) return;
-
-//     const handleKey = (e: KeyboardEvent) => {
-//       if (e.key === "ArrowRight") next();
-//       if (e.key === "ArrowLeft") prev();
-//       if (e.key === "Escape") setOpen(false);
-//     };
-
-//     window.addEventListener("keydown", handleKey);
-//     return () => window.removeEventListener("keydown", handleKey);
-//   }, [open]);
-
-//   return (
-//     <>
-//       {/* CARD */}
-//       <div
-//         className="group relative rounded-2xl overflow-hidden
-//         transition-all duration-300 ease-out
-//         hover:-translate-y-1 hover:shadow-xl
-//         dark:hover:bg-muted/50 dark:hover:shadow-black/20"
-//         style={{ animationDelay: `${index * 80}ms` }}
-//       >
-
-// {/* IMAGE STACK */}
-// <div className="relative z-10 p-4">
-//   <button
-//     onClick={() => openViewer(0)}
-//     className="relative w-full aspect-[18/9] rounded-2xl overflow-hidden"
-//   >
-//     {template.image
-//       .slice(0, 4)
-//       .map((img, i) => {
-//         const depth = template.image.slice(0, 4).length - 1 - i;
-
-//         return (
-//           <div
-//             key={i}
-//             className="absolute top-0 left-0 rounded-2xl overflow-hidden pointer-events-none"
-//             style={{
-//               width: "100%",
-//               transform: `translateY(-${depth * 8}px)`,
-//               zIndex: 10 - depth,
-//             }}
-//           >
-//             <div className="w-full h-full bg-muted/50 flex items-center justify-center">
-//               <img
-//                 src={img}
-//                 alt=""
-//                 className="max-w-full max-h-full object-contain"
-//               />
-//             </div>
-//           </div>
-//         );
-//       })}
-
-//     {/* IMAGE COUNT */}
-//     {template.image.length > 1 && (
-//       <div
-//         className="absolute bottom-3 right-3 z-20 px-2.5 py-1 rounded-full
-//         text-xs font-medium bg-black/70 text-white backdrop-blur"
-//       >
-//         +{template.image.length}
-//       </div>
-//     )}
-//   </button>
-// </div>
-
-
-
-//         {/* FOOTER */}
-//         <div className="relative z-10 px-4 pb-4 flex items-center justify-between">
-//           <h3 className="text-sm font-medium truncate text-foreground">
-//             {template.name}
-//           </h3>
-
-//           <div className="flex items-center gap-3">
-//             {template.tools.slice(0, 4).map((tool) => {
-//               const Icon = toolIcons[tool];
-//               return (
-//                 Icon && (
-//                   <Icon
-//                     key={tool}
-//                     className="w-4 h-4 text-muted-foreground
-//                     hover:text-foreground transition-colors"
-//                   />
-//                 )
-//               );
-//             })}
-//           </div>
-//         </div>
-//       </div>
-
-//       {/* IMAGE VIEWER MODAL */}
-//       {open && (
-//         <div
-//           className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md
-//           flex items-center justify-center"
-//           onClick={() => setOpen(false)}
-//         >
-//           {/* CLOSE */}
-//           <button
-//             className="absolute top-6 right-6 text-white"
-//             onClick={() => setOpen(false)}
-//           >
-//             <X size={28} />
-//           </button>
-
-//           {/* PREV */}
-//           <button
-//             className="absolute left-6 text-white"
-//             onClick={(e) => {
-//               e.stopPropagation();
-//               prev();
-//             }}
-//           >
-//             <ChevronLeft size={32} />
-//           </button>
-
-//           {/* IMAGE */}
-//           <img
-//             src={template.image[activeIndex]}
-//             alt=""
-//             className="max-w-[90vw] max-h-[85vh] rounded-xl shadow-2xl object-contain"
-//             onClick={(e) => e.stopPropagation()}
-//           />
-
-//           {/* NEXT */}
-//           <button
-//             className="absolute right-6 text-white"
-//             onClick={(e) => {
-//               e.stopPropagation();
-//               next();
-//             }}
-//           >
-//             <ChevronRight size={32} />
-//           </button>
-//         </div>
-//       )}
-//     </>
-//   );
-// };
-
-// export default TemplateCard;
-import { useEffect, useState } from "react";
 import {
-  SiFigma,
-  SiCanva,
-  SiAdobephotoshop,
-  SiAdobeillustrator,
-} from "react-icons/si";
-import { ChevronLeft, ChevronRight, X } from "lucide-react";
+  LucideIcon,
+  CheckCircle,
+  MapPin,
+  Figma,
+  Layers,
+  PenTool,
+  Monitor,
+  Smartphone,
+  Users,
+  Lightbulb,
+  Target,
+  Palette,
+  Layout,
+  Code,
+  Sparkles,
+} from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 
-interface TemplateCardProps {
-  template: {
-    name: string;
-    image: string[];
-    colors: string[];
-    tools: string[];
-  };
+interface TimelineCardProps {
+  year: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  type: "education" | "work";
+  icon: LucideIcon;
+  achievements?: string[];
   index: number;
+  isLeft: boolean;
+  city?: string;
+  skills?: string[];
 }
 
-const toolIcons: Record<string, any> = {
-  figma: SiFigma,
-  canva: SiCanva,
-  photoshop: SiAdobephotoshop,
-  illustrator: SiAdobeillustrator,
-};
+/* ================= MAP BACKGROUND ================= */
 
-const TemplateCard = ({ template, index }: TemplateCardProps) => {
-  if (!template.image || template.image.length < 1) return null;
-
-  const [open, setOpen] = useState(false);
-  const [activeIndex, setActiveIndex] = useState(0);
-
-  const openViewer = (index: number) => {
-    setActiveIndex(index);
-    setOpen(true);
+const MapBackground = ({ city }: { city?: string }) => {
+  const getPinPosition = (cityName: string) => {
+    const hash = cityName
+      .split("")
+      .reduce((acc, char) => acc + char.charCodeAt(0), 0);
+    return {
+      x: 30 + (hash % 40),
+      y: 25 + ((hash * 7) % 50),
+    };
   };
 
-  const [hoverIndex, setHoverIndex] = useState<number | null>(null);
-
-
-  const next = () =>
-    setActiveIndex((prev) => (prev + 1) % template.image.length);
-
-  const prev = () =>
-    setActiveIndex((prev) =>
-      prev === 0 ? template.image.length - 1 : prev - 1
-    );
-
-  /* Keyboard navigation */
-  useEffect(() => {
-    if (!open) return;
-
-    const handleKey = (e: KeyboardEvent) => {
-      if (e.key === "ArrowRight") next();
-      if (e.key === "ArrowLeft") prev();
-      if (e.key === "Escape") setOpen(false);
-    };
-
-    window.addEventListener("keydown", handleKey);
-    return () => window.removeEventListener("keydown", handleKey);
-  }, [open]);
+  const pinPos = city ? getPinPosition(city) : { x: 50, y: 50 };
 
   return (
-    <>
-      {/* CARD */}
-      <div
-        className="group relative rounded-2xl border border-border/40 bg-card
-        transition-all duration-300 ease-out
-        hover:-translate-y-1 hover:shadow-xl"
-        style={{ animationDelay: `${index * 80}ms` }}
+    <div className="absolute inset-0 overflow-hidden rounded-xl opacity-[0.08] pointer-events-none">
+      <svg
+        className="absolute inset-0 w-full h-full pointer-events-none"
+        xmlns="http://www.w3.org/2000/svg"
       >
-        {/* IMAGE PREVIEW */}
-        <div className="p-4">
-          <div
-            className="relative aspect-[16/9] rounded-xl overflow-hidden cursor-pointer"
-            onClick={() => openViewer(0)}
-          >
-            <img
-              src={template.image[hoverIndex ?? 0]}
-              alt={template.name}
-              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+        <defs>
+          <pattern id="gridLarge" width="40" height="40" patternUnits="userSpaceOnUse">
+            <path
+              d="M 40 0 L 0 0 0 40"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="0.5"
+              className="text-primary"
             />
-          </div>
+          </pattern>
+          <pattern id="gridSmall" width="10" height="10" patternUnits="userSpaceOnUse">
+            <path
+              d="M 10 0 L 0 0 0 10"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="0.3"
+              className="text-primary"
+            />
+          </pattern>
+        </defs>
 
-          {/* IMAGE RAIL */}
-          {template.image.length > 1 && (
-            <div className="mt-3 flex gap-2">
-              {template.image.slice(0, 4).map((img, i) => (
-                <button
-                  key={i}
-                  onClick={() => openViewer(i)}
-                  onMouseEnter={() => setHoverIndex(i)}
-                  onMouseLeave={() => setHoverIndex(null)} className="relative h-14 w-20 rounded-md overflow-hidden border border-border/40"
-                >
-                  <img
-                    src={img}
-                    alt=""
-                    className="w-full h-full object-cover"
-                  />
+        <rect width="100%" height="100%" fill="url(#gridSmall)" />
+        <rect width="100%" height="100%" fill="url(#gridLarge)" />
 
-                  {/* +N overlay */}
-                  {i === 3 && template.image.length > 4 && (
-                    <div className="absolute inset-0 bg-black/60 text-white text-xs font-medium flex items-center justify-center">
-                      +{template.image.length - 3}
-                    </div>
-                  )}
-                </button>
-              ))}
-            </div>
-          )}
+        <path
+          d="M 0 60 Q 50 40 100 70 T 200 50 T 300 80"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          className="text-primary"
+          opacity="0.5"
+        />
+      </svg>
+
+      {city && (
+        <div
+          className="absolute pointer-events-none"
+          style={{ left: `${pinPos.x}%`, top: `${pinPos.y}%` }}
+        >
+          <MapPin size={26} className="text-primary fill-primary/30" />
         </div>
+      )}
+    </div>
+  );
+};
 
-        {/* FOOTER */}
-        <div className="px-4 pb-4 flex items-center justify-between">
-          <h3 className="text-sm font-medium text-foreground truncate">
-            {template.name}
-          </h3>
+/* ================= SKILL ICON MAP ================= */
 
-          <div className="flex items-center gap-3">
-            {template.tools.slice(0, 4).map((tool) => {
-              const Icon = toolIcons[tool];
-              return (
-                Icon && (
-                  <Icon
-                    key={tool}
-                    className="w-4 h-4 text-muted-foreground hover:text-foreground transition-colors"
-                  />
-                )
-              );
-            })}
+const skillIconMap: Record<string, LucideIcon> = {
+  Figma,
+  "UI Design": Palette,
+  "UX Design": Users,
+  Prototyping: Layers,
+  "Design Systems": Layout,
+  "User Research": Target,
+  Wireframing: PenTool,
+  "Mobile Design": Smartphone,
+  "Web Design": Monitor,
+  Innovation: Lightbulb,
+  Development: Code,
+  Creative: Sparkles,
+};
+
+/* ================= TIMELINE CARD ================= */
+
+const TimelineCard = ({
+  year,
+  title,
+  subtitle,
+  description,
+  type,
+  icon: Icon,
+  achievements,
+  index,
+  isLeft,
+  city,
+  skills,
+}: TimelineCardProps) => {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => entry.isIntersecting && setIsVisible(true),
+      { threshold: 0.2 }
+    );
+
+    if (cardRef.current) observer.observe(cardRef.current);
+    return () => observer.disconnect();
+  }, []);
+
+  return (
+    <div
+      ref={cardRef}
+      className={`relative flex items-center ${
+        isLeft ? "md:flex-row" : "md:flex-row-reverse"
+      }`}
+    >
+      {/* Timeline dot */}
+      <div className="absolute left-0 md:left-1/2 -translate-x-1/2 z-10">
+        <div className="w-3.5 h-3.5 rounded-full bg-primary" />
+      </div>
+
+      {/* Content */}
+      <div
+        className={`w-full md:w-1/2 ${
+          isLeft ? "md:pr-16 pl-8 md:pl-0" : "md:pl-16 pl-8 md:pr-0"
+        }`}
+      >
+        <div
+          className={`transition-all duration-700 ${
+            isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"
+          }`}
+          style={{ transitionDelay: `${index * 80}ms` }}
+        >
+          {/* Year */}
+          <span className="inline-block mb-4 px-3 py-1 text-xs uppercase tracking-widest text-primary bg-primary/10 border border-primary/20 rounded-full">
+            {year}
+          </span>
+
+          {/* CARD (hover-safe) */}
+          <div
+            className="
+              group relative p-6 rounded-xl
+              bg-card-gradient border border-border
+              transition-all duration-300
+              hover:border-primary/40 hover:shadow-xl hover:-translate-y-[2px]
+              overflow-hidden
+            "
+          >
+            {/* Floating skill icons (desktop) */}
+            {skills &&
+              skills.slice(0, 6).map((skill, i) => {
+                const SkillIcon = skillIconMap[skill] || Sparkles;
+                const positions = [
+                  { top: "20%", right: "-14px" },
+                  { top: "50%", right: "-14px" },
+                  { top: "80%", right: "-14px" },
+                  { top: "20%", left: "-14px" },
+                  { top: "50%", left: "-14px" },
+                  { top: "80%", left: "-14px" },
+                ];
+                return (
+                  <div
+                    key={skill}
+                    className="
+                      hidden md:flex absolute z-20 pointer-events-none
+                      items-center justify-center w-7 h-7 rounded-full
+                      bg-background/95 border border-primary/20
+                      opacity-0 scale-75
+                      group-hover:opacity-100 group-hover:scale-100
+                      transition-all duration-500
+                    "
+                    style={{
+                      ...positions[i],
+                      transitionDelay: `${i * 60}ms`,
+                    }}
+                  >
+                    <SkillIcon size={12} className="text-primary/80" />
+                  </div>
+                );
+              })}
+
+            {/* Map Background */}
+            <MapBackground city={city} />
+
+            {/* Card content */}
+            <div className="relative z-10">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center">
+                  <Icon size={20} className="text-primary" />
+                </div>
+                <div className="text-xs uppercase tracking-widest text-muted-foreground">
+                  {type === "education" ? "Education" : "Experience"}
+                </div>
+              </div>
+
+              <h3 className="text-xl font-semibold mb-1 group-hover:text-primary transition-colors">
+                {title}
+              </h3>
+
+              <p className="text-sm text-primary/80 mb-3">{subtitle}</p>
+
+              <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+                {description}
+              </p>
+
+              {achievements && (
+                <div className="space-y-2 pt-4 border-t border-border/50">
+                  {achievements.map((a, i) => (
+                    <div key={i} className="flex gap-2">
+                      <CheckCircle size={16} className="text-primary" />
+                      <span className="text-sm text-secondary-foreground">
+                        {a}
+                      </span>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>
 
-      {/* IMAGE VIEWER */}
-      {open && (
-        <div
-          className="fixed inset-0 z-50 bg-black/80 backdrop-blur-md
-          flex items-center justify-center"
-          onClick={() => setOpen(false)}
-        >
-          <button
-            className="absolute top-6 right-6 text-white"
-            onClick={() => setOpen(false)}
-          >
-            <X size={28} />
-          </button>
-
-          <button
-            className="absolute left-6 text-white"
-            onClick={(e) => {
-              e.stopPropagation();
-              prev();
-            }}
-          >
-            <ChevronLeft size={32} />
-          </button>
-
-          <img
-            src={template.image[activeIndex]}
-            alt=""
-            className="max-w-[90vw] max-h-[85vh] rounded-xl shadow-2xl object-contain"
-            onClick={(e) => e.stopPropagation()}
-          />
-
-          <button
-            className="absolute right-6 text-white"
-            onClick={(e) => {
-              e.stopPropagation();
-              next();
-            }}
-          >
-            <ChevronRight size={32} />
-          </button>
-        </div>
-      )}
-    </>
+      <div className="hidden md:block md:w-1/2" />
+    </div>
   );
 };
 
-export default TemplateCard;
+export default TimelineCard;

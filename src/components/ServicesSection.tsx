@@ -1,34 +1,31 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { 
-  ArrowRight, 
-  Sparkles, 
-  Code2, 
+import {
+  ArrowRight,
   CheckCircle2,
   Lightbulb,
   Layout,
   Brush,
-  BaggageClaim,
-  Briefcase
+  Code2,
+  Briefcase,
 } from "lucide-react";
-import { Badge } from "@/components/ui/badge";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 import ServiceRequestForm from "@/components/ServiceRequestForm";
+
+/* ------------------ animations ------------------ */
 
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.2,
-    },
+    transition: { staggerChildren: 0.1, delayChildren: 0.15 },
   },
 };
 
@@ -37,310 +34,402 @@ const itemVariants = {
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] as const },
+    transition: { duration: 0.45, ease: [0.25, 0.46, 0.45, 0.94] as const },
   },
 };
 
-const services = [
-  {
+/* ------------------ data ------------------ */
+
+const services = {
+  ux: {
     id: "ux-ui",
     title: "UX/UI Design",
-    description: "I design intuitive, user-first interfaces grounded in usability, structure, and visual clarity — ensuring every interaction feels purposeful and easy to use.",
+    description:
+      "I design clear, intuitive interfaces that make digital products easy to understand and enjoyable to use — balancing user needs, business goals, and technical feasibility.",
     icon: Layout,
-    color: "from-primary to-accent",
     focusAreas: [
       "User research & journeys",
       "Wireframes → high-fidelity UI",
-      "Design systems & accessibility"
+      "Design systems & accessibility",
     ],
-    isHero: true,
-    stat: "12",
-    statLabel: "Live Projects",
-    statDescription: "Actively designed, built, and maintained — from concept to deployment."
   },
-  {
-    id: "product",
-    title: "Product Design",
-    description: "From early concepts to production-ready designs, I create research-driven digital products that solve real user and business problems.",
-    icon: Lightbulb,
-    color: "from-success to-primary",
-    focusAreas: [
-      "Product strategy & thinking",
-      "UX problem-solving",
-      "Scalable, system-based design"
-    ]
-  },
-  {
+  frontend: {
     id: "web",
-    title: "Web Development",
-    description: "I build responsive, high-performance websites that translate design into clean, maintainable code — without compromising speed, usability, or scalability.",
+    title: "Frontend Development",
+    description:
+      "I build responsive, high-performance frontends that bring designs to life with clean, maintainable code.",
     icon: Code2,
-    color: "from-warning to-destructive",
     focusAreas: [
       "Modern JavaScript frameworks",
       "Component-driven architecture",
-      "Performance & responsiveness"
-    ]
+      "Performance & responsiveness",
+    ],
   },
-  {
+  product: {
+    id: "product",
+    title: "Product Design",
+    description:
+      "I help shape products from early ideas to usable solutions — focusing on structure, flows, and decisions.",
+    icon: Lightbulb,
+    focusAreas: [
+      "Product strategy & thinking",
+      "UX problem-solving",
+      "MVP & feature definition",
+    ],
+  },
+  brand: {
     id: "identity",
-    title: "Identity Design",
-    description: "I craft cohesive brand identities — from logos to visual systems — that communicate clarity, trust, and personality across digital touchpoints.",
+    title: "Brand / Identity",
+    description:
+      "I define clear, scalable brand identities for digital products — from logos to visual systems.",
     icon: Brush,
-    color: "from-accent to-primary",
     focusAreas: [
       "Logo & visual identity",
       "Brand systems",
-      "Digital-first storytelling"
-    ]
-  }
-];
+      "Digital-first storytelling",
+    ],
+  },
+};
 
-const ServicesSection = () => {
+/* ------------------ decorative layers ------------------ */
+
+function UxDecoration() {
+  return (
+    <div className="absolute inset-0 pointer-events-none">
+      <div className="absolute -top-24 -left-24 w-80 h-80 rounded-full bg-primary/30 blur-[120px]" />
+    </div>
+  );
+}
+
+/* ------------------ abstract design elements ------------------ */
+
+function UiWireframeBg() {
+  return (
+    <svg
+      className="absolute inset-6 w-full h-full opacity-[0.08] pointer-events-none"
+      viewBox="0 0 400 300"
+      fill="none"
+    >
+      <rect x="20" y="20" width="160" height="40" rx="6" stroke="currentColor" />
+      <rect x="20" y="80" width="260" height="120" rx="8" stroke="currentColor" />
+      <rect x="200" y="20" width="140" height="40" rx="6" stroke="currentColor" />
+      <rect x="300" y="80" width="60" height="120" rx="6" stroke="currentColor" />
+    </svg>
+  );
+}
+
+function CodeMatrixBg() {
+  return (
+    <svg
+      className="absolute inset-6 w-full h-full opacity-[0.08] pointer-events-none"
+      viewBox="0 0 400 300"
+      fill="none"
+    >
+      {[...Array(10)].map((_, i) => (
+        <line
+          key={i}
+          x1={40 + i * 30}
+          y1="20"
+          x2={40 + i * 30}
+          y2="280"
+          stroke="currentColor"
+          strokeDasharray="4 6"
+        />
+      ))}
+    </svg>
+  );
+}
+
+function ProductFlowBg() {
+  return (
+    <svg
+      className="absolute inset-6 w-full h-full opacity-[0.08] pointer-events-none"
+      viewBox="0 0 400 300"
+      fill="none"
+    >
+      <circle cx="80" cy="150" r="8" fill="currentColor" />
+      <circle cx="200" cy="80" r="8" fill="currentColor" />
+      <circle cx="320" cy="180" r="8" fill="currentColor" />
+      <path
+        d="M80 150 C140 150 140 80 200 80 S260 180 320 180"
+        stroke="currentColor"
+        strokeWidth="2"
+      />
+    </svg>
+  );
+}
+
+function BrandSystemBg() {
+  return (
+    <svg
+      className="absolute inset-6 w-full h-full opacity-[0.08] pointer-events-none"
+      viewBox="0 0 400 300"
+      fill="none"
+    >
+      <rect x="60" y="40" width="80" height="80" rx="8" stroke="currentColor" />
+      <rect x="160" y="40" width="180" height="24" rx="6" stroke="currentColor" />
+      <rect x="160" y="80" width="140" height="16" rx="4" stroke="currentColor" />
+      <rect x="60" y="160" width="280" height="80" rx="12" stroke="currentColor" />
+    </svg>
+  );
+}
+function CtaSystemBg() {
+  return (
+    <svg
+      className="absolute inset-6 w-full h-full opacity-[0.08] pointer-events-none"
+      viewBox="0 0 400 300"
+      fill="none"
+    >
+      {/* Header block */}
+      <rect
+        x="40"
+        y="30"
+        width="200"
+        height="32"
+        rx="8"
+        stroke="currentColor"
+      />
+
+      {/* Body text blocks */}
+      <rect
+        x="40"
+        y="80"
+        width="280"
+        height="18"
+        rx="6"
+        stroke="currentColor"
+      />
+      <rect
+        x="40"
+        y="110"
+        width="240"
+        height="18"
+        rx="6"
+        stroke="currentColor"
+      />
+
+      {/* Action / button placeholder */}
+      <rect
+        x="40"
+        y="160"
+        width="140"
+        height="40"
+        rx="10"
+        stroke="currentColor"
+      />
+    </svg>
+  );
+}
+
+/* ------------------ component ------------------ */
+
+export default function ServicesSection() {
   const [isFormOpen, setIsFormOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Hero Section */}
-      <section className="py-16 lg:py-24 px-4">
-        <div className="container max-w-7xl mx-auto">
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={containerVariants}
-            className="text-center mb-16"
+    <section className="py-16 lg:py-24 px-4">
+      <div className="container mx-auto">
+        {/* HERO */}
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={containerVariants}
+          className="text-center mb-16"
+        >
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-8">
+            <Briefcase className="w-4 h-4 text-primary" />
+            <span className="text-sm font-medium">Services</span>
+          </div>
+
+          <motion.h1
+            variants={itemVariants}
+            className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6"
           >
-        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-8 lg:mb-8 animate-fade-in-up">
-          <Briefcase className="w-4 h-4 text-primary" />
-          <span className="text-sm font-medium text-foreground">Services</span>
-        </div>
-            
-            <motion.h1 
-              variants={itemVariants}
-              className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6"
-            >
-              What I <span className="gradient-text">Do</span>
-            </motion.h1>
-            
-            <motion.p 
-              variants={itemVariants}
-              className="text-lg text-muted-foreground max-w-3xl mx-auto"
-            >
-              I'm a designer who understands code, and a developer who respects design — focused on building products that actually work.
-            </motion.p>
+            What I <span className="gradient-text">Do</span>
+          </motion.h1>
+
+          <motion.p
+            variants={itemVariants}
+            className="text-lg text-muted-foreground max-w-3xl mx-auto"
+          >
+            I help startups and teams design, build, and launch digital products —
+            or step in wherever clarity and execution are needed.
+          </motion.p>
+        </motion.div>
+
+        {/* GRID */}
+        <motion.div
+          initial="hidden"
+          animate="visible"
+          variants={containerVariants}
+          className="grid grid-cols-1 md:grid-cols-12 gap-4 lg:gap-6"
+        >
+          {/* UX/UI */}
+          <motion.div variants={itemVariants} className="md:col-span-7">
+            <Link to={`/services/${services.ux.id}`} className="group block h-full">
+              <div className="relative h-full p-8 rounded-3xl bg-card border border-border/50 overflow-hidden hover:border-primary/30 transition">
+                <UxDecoration />
+                <UiWireframeBg />
+                <div className="relative z-10">
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="flex items-center gap-4">
+                      <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary to-accent flex items-center justify-center">
+                        <Layout className="w-7 h-7 text-primary-foreground" />
+                      </div>
+                      <h2 className="text-2xl lg:text-3xl font-bold">
+                        {services.ux.title}
+                      </h2>
+                    </div>
+                    <ArrowRight className="w-6 h-6 text-muted-foreground opacity-0 group-hover:opacity-100 transition" />
+                  </div>
+
+                  <p className="text-muted-foreground mb-6">
+                    {services.ux.description}
+                  </p>
+                  <div className="space-y-2">
+                    {services.ux.focusAreas.map((area, i) => (
+                      <div key={i} className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <CheckCircle2 className="w-4 h-4 text-success" />
+                        {area}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </Link>
           </motion.div>
 
-          {/* Bento Grid */}
-          <motion.div
-            initial="hidden"
-            animate="visible"
-            variants={containerVariants}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-4 lg:gap-6"
-          >
-            {/* Hero Card - UX/UI Design */}
-            <motion.div
-              variants={itemVariants}
-              className="lg:col-span-7 lg:row-span-2"
-            >
-              <Link 
-                to="/services/ux-ui"
-                className="service-card-hero group block h-full"
-              >
-                <div className="relative h-full p-8 rounded-3xl bg-gradient-to-br from-primary/10 via-card to-accent/10 border border-border/50 overflow-hidden transition-all duration-500 hover:border-primary/30 hover:shadow-bento-hover">
-                  {/* Background Glow */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-accent/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  
-                  {/* Content */}
-                  <div className="relative z-10 h-full flex flex-col">
-                    <div className="flex items-start justify-between mb-6">
-                      <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-lg">
-                        <Layout className="w-8 h-8 text-primary-foreground" />
-                      </div>
-                      <ArrowRight className="w-6 h-6 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
-                    </div>
-                    
-                    <h2 className="text-2xl lg:text-3xl font-bold mb-3 text-foreground">UX/UI Design</h2>
-                    <p className="text-muted-foreground mb-6 flex-grow">
-                      {services[0].description}
-                    </p>
-                    
-                    {/* Stat Highlight */}
-                    <div className="p-6 rounded-2xl bg-card/80 backdrop-blur-sm border border-border/50 mb-6">
-                      <div className="flex items-baseline gap-2 mb-2">
-                        <span className="text-5xl font-bold gradient-text">{services[0].stat}</span>
-                        <span className="text-xl font-semibold text-foreground">{services[0].statLabel}</span>
-                      </div>
-                      <p className="text-sm text-muted-foreground">{services[0].statDescription}</p>
-                    </div>
-                    
-                    {/* Focus Areas */}
-                    <div className="space-y-2">
-                      {services[0].focusAreas.map((area, index) => (
-                        <div key={index} className="flex items-center gap-2 text-sm text-muted-foreground">
-                          <CheckCircle2 className="w-4 h-4 text-success" />
-                          <span>{area}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            </motion.div>
-
-            {/* Product Design */}
-            <motion.div
-              variants={itemVariants}
-              className="lg:col-span-5"
-            >
-              <Link 
-                to="/services/product"
-                className="service-card group block h-full"
-              >
-                <div className="relative h-full p-6 rounded-3xl bg-card border border-border/50 overflow-hidden transition-all duration-500 hover:border-success/30 hover:shadow-bento-hover">
-                  <div className="absolute inset-0 bg-gradient-to-br from-success/5 to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  
-                  <div className="relative z-10">
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-success to-primary flex items-center justify-center">
-                        <Lightbulb className="w-6 h-6 text-primary-foreground" />
-                      </div>
-                      <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-success group-hover:translate-x-1 transition-all" />
-                    </div>
-                    
-                    <h3 className="text-xl font-bold mb-2 text-foreground">Product Design</h3>
-                    <p className="text-sm text-muted-foreground mb-4">
-                      {services[1].description}
-                    </p>
-                    
-                    <div className="space-y-1.5">
-                      {services[1].focusAreas.map((area, index) => (
-                        <div key={index} className="flex items-center gap-2 text-xs text-muted-foreground">
-                          <CheckCircle2 className="w-3 h-3 text-success" />
-                          <span>{area}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </Link>
-            </motion.div>
-
-            {/* Web Development */}
-            <motion.div
-              variants={itemVariants}
-              className="lg:col-span-5"
-            >
-              <Link 
-                to="/services/web"
-                className="service-card group block h-full"
-              >
-                <div className="relative h-full p-6 rounded-3xl bg-card border border-border/50 overflow-hidden transition-all duration-500 hover:border-warning/30 hover:shadow-bento-hover">
-                  <div className="absolute inset-0 bg-gradient-to-br from-warning/5 to-destructive/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  
-                  <div className="relative z-10">
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-warning to-destructive flex items-center justify-center">
+          {/* FRONTEND */}
+          <motion.div variants={itemVariants} className="md:col-span-5">
+            <Link to={`/services/${services.frontend.id}`} className="group block h-full">
+              <div className="relative h-full p-6 rounded-3xl bg-card border border-border/50 overflow-hidden hover:border-primary/30 transition">
+                <CodeMatrixBg />
+                <div className="relative z-10">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center">
                         <Code2 className="w-6 h-6 text-primary-foreground" />
                       </div>
-                      <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-warning group-hover:translate-x-1 transition-all" />
+                      <h3 className="text-xl font-bold">
+                        {services.frontend.title}
+                      </h3>
                     </div>
-                    
-                    <h3 className="text-xl font-bold mb-2 text-foreground">Web Development</h3>
-                    <p className="text-sm text-muted-foreground mb-4">
-                      {services[2].description}
-                    </p>
-                    
-                    <div className="space-y-1.5">
-                      {services[2].focusAreas.map((area, index) => (
-                        <div key={index} className="flex items-center gap-2 text-xs text-muted-foreground">
-                          <CheckCircle2 className="w-3 h-3 text-success" />
-                          <span>{area}</span>
-                        </div>
-                      ))}
-                    </div>
+                    <ArrowRight className="w-5 h-5 text-muted-foreground opacity-0 group-hover:opacity-100 transition" />
                   </div>
-                </div>
-              </Link>
-            </motion.div>
 
-            {/* Identity Design */}
-            <motion.div
-              variants={itemVariants}
-              className="lg:col-span-6"
-            >
-              <Link 
-                to="/services/identity"
-                className="service-card group block h-full"
-              >
-                <div className="relative h-full p-6 rounded-3xl bg-card border border-border/50 overflow-hidden transition-all duration-500 hover:border-accent/30 hover:shadow-bento-hover">
-                  <div className="absolute inset-0 bg-gradient-to-br from-accent/5 to-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  
-                  <div className="relative z-10 flex flex-col lg:flex-row gap-6">
-                    <div className="flex-1">
-                      <div className="flex items-start justify-between mb-4">
-                        <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-accent to-primary flex items-center justify-center">
-                          <Brush className="w-6 h-6 text-primary-foreground" />
-                        </div>
-                        <ArrowRight className="w-5 h-5 text-muted-foreground group-hover:text-accent group-hover:translate-x-1 transition-all lg:hidden" />
+                  <p className="text-sm text-muted-foreground mb-6">
+                    {services.frontend.description}
+                  </p>
+                  <div className="space-y-2">
+                    {services.frontend.focusAreas.map((area, i) => (
+                      <div key={i} className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <CheckCircle2 className="w-4 h-4 text-success" />
+                        {area}
                       </div>
-                      
-                      <h3 className="text-xl font-bold mb-2 text-foreground">Identity Design</h3>
-                      <p className="text-sm text-muted-foreground mb-4">
-                        {services[3].description}
-                      </p>
-                      
-                      <div className="space-y-1.5">
-                        {services[3].focusAreas.map((area, index) => (
-                          <div key={index} className="flex items-center gap-2 text-xs text-muted-foreground">
-                            <CheckCircle2 className="w-3 h-3 text-success" />
-                            <span>{area}</span>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                    
-                    <div className="hidden lg:flex items-center">
-                      <ArrowRight className="w-6 h-6 text-muted-foreground group-hover:text-accent group-hover:translate-x-1 transition-all" />
-                    </div>
+                    ))}
                   </div>
-                </div>
-              </Link>
-            </motion.div>
 
-            {/* CTA Card */}
-            <motion.div
-              variants={itemVariants}
-              className="lg:col-span-6"
-            >
-              <div className="h-full p-6 rounded-3xl bg-gradient-to-br from-foreground to-foreground/90 text-background flex flex-col justify-center">
-                <h3 className="text-2xl font-bold mb-3">Ready to create something meaningful?</h3>
-                <p className="text-background/80 mb-6">
-                  Let's collaborate on your next project and bring your vision to life.
-                </p>
-                <button 
-                  onClick={() => setIsFormOpen(true)}
-                  className="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-background text-foreground font-semibold hover:bg-background/90 transition-colors"
-                >
-                  Let's Build Something Meaningful
-                  <ArrowRight className="w-4 h-4" />
-                </button>
+                </div>
               </div>
-            </motion.div>
+            </Link>
           </motion.div>
-        </div>
-      </section>
 
-      {/* Service Request Dialog */}
+          {/* PRODUCT */}
+          <motion.div variants={itemVariants} className="md:col-span-4">
+            <Link to={`/services/${services.product.id}`} className="group block h-full">
+              <div className="relative h-full p-6 rounded-3xl bg-card border border-border/50 overflow-hidden hover:border-primary/30 transition">
+                <ProductFlowBg />
+                <div className="relative z-10">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center">
+                        <Lightbulb className="w-6 h-6 text-primary-foreground" />
+                      </div>
+                      <h3 className="text-xl font-bold">
+                        {services.product.title}
+                      </h3>
+                    </div>
+                    <ArrowRight className="w-5 h-5 text-muted-foreground opacity-0 group-hover:opacity-100 transition" />
+                  </div>
+
+                  <p className="text-sm text-muted-foreground mb-2">
+                    {services.product.description}
+                  </p>
+                  <div className="space-y-2">
+                    {services.product.focusAreas.map((area, i) => (
+                      <div key={i} className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <CheckCircle2 className="w-4 h-4 text-success" />
+                        {area}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </Link>
+          </motion.div>
+
+          {/* BRAND */}
+          <motion.div variants={itemVariants} className="md:col-span-4">
+            <Link to={`/services/${services.brand.id}`} className="group block h-full">
+              <div className="relative h-full p-6 rounded-3xl bg-card border border-border/50 overflow-hidden hover:border-accent/30 transition">
+                <BrandSystemBg />
+                <div className="relative z-10">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-accent to-primary flex items-center justify-center">
+                        <Brush className="w-6 h-6 text-primary-foreground" />
+                      </div>
+                      <h3 className="text-xl font-bold">
+                        {services.brand.title}
+                      </h3>
+                    </div>
+                    <ArrowRight className="w-5 h-5 text-muted-foreground opacity-0 group-hover:opacity-100 transition" />
+                  </div>
+
+                  <p className="text-sm text-muted-foreground mb-2">
+                    {services.brand.description}
+                  </p>
+                  <div className="space-y-2">
+                    {services.brand.focusAreas.map((area, i) => (
+                      <div key={i} className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <CheckCircle2 className="w-4 h-4 text-success" />
+                        {area}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                </div>
+            </Link>
+          </motion.div>
+
+          {/* CTA */}
+          <motion.div variants={itemVariants} className="md:col-span-4">
+            <div className="h-full p-6 rounded-3xl bg-card border border-border/50 flex flex-col justify-center">
+            
+              <h3 className="text-2xl font-bold mb-3">
+                Have a project in mind?
+              </h3>
+              <p className="text-muted-foreground mb-6">
+                Tell me what you’re building, and I’ll help you find the right approach.
+              </p>
+              <Button variant="hero" size="lg" onClick={() => setIsFormOpen(true)}>
+                Start a Conversation
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Button>
+            </div>
+          </motion.div>
+        </motion.div>
+      </div>
+
+      {/* FORM */}
       <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
-        <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
+        <DialogContent className="max-w-5xl max-h-[90vh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle className="sr-only">Request a Service</DialogTitle>
+            <DialogTitle className="sr-only">Start a Project</DialogTitle>
           </DialogHeader>
           <ServiceRequestForm />
         </DialogContent>
       </Dialog>
-    </div>
+    </section>
   );
-};
-
-export default ServicesSection;
+}

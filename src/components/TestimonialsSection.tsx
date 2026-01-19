@@ -169,9 +169,9 @@ export const TestimonialsSection = () => {
         </div>
 
         {/* Desktop Layout */}
-        <div className="hidden md:flex flex-row items-center justify-center gap-24 max-w-5xl mx-auto">
+        <div className="hidden md:flex flex-row items-center justify-center gap-24  mx-auto">
           {/* Left side - Quote */}
-          <div className="flex-1 max-w-xl">
+          <div className="flex-1 ">
             <div className="relative">
               <div className="relative w-8 h-8 lg:w-10 lg:h-10 mb-4 lg:mb-6">
                 <Quote className="w-full h-full text-accent/20 absolute top-0.5 left-0.5 blur-[1px]" />

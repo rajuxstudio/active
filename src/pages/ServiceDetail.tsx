@@ -175,23 +175,22 @@ const ServiceDetail = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <section className="py-16 lg:py-24 px-4">
-        <div className="container max-w-5xl mx-auto">
+      <main className="pt-32">
+        <div className="container">
           <motion.div
             initial="hidden"
             animate="visible"
             variants={containerVariants}
+            className="px-4"
           >
             {/* Back Button */}
-            <motion.div variants={itemVariants} className="mb-8">
-              <Link 
-                to="/#services" 
-                className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
-              >
-                <ArrowLeft className="w-4 h-4" />
-                Back to Services
-              </Link>
-            </motion.div>
+                      <Link
+            to="/#services"
+            className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors mb-8 group"
+          >
+            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+            Back to Services
+          </Link>
 
             {/* Service Header */}
             <motion.div variants={itemVariants} className="flex items-start gap-6 mb-8">
@@ -272,20 +271,19 @@ const ServiceDetail = () => {
             
           </motion.div>
         </div>
-      </section>
+      </main>
 
       {/* Service Request Form */}
       <section id="request-form" className="py-16 lg:py-24 px-4 bg-muted/30">
-        <div className="container max-w-3xl mx-auto">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5 }}
+            className="p-8"
           >
             <ServiceRequestForm defaultService={service.title} />
           </motion.div>
-        </div>
       </section>
 
       {/* Footer */}
